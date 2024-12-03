@@ -1,4 +1,4 @@
-//* Estilo global */
+/* Estilo global */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,36 +9,26 @@ body {
 /* Estilos para o header */
 header {
     display: flex;
-    flex-direction: column; /* Muda para coluna para colocar o logo acima do título */
+    flex-direction: column; /* Organiza os itens em coluna */
     justify-content: center;
     align-items: center;
     background-color: #007bff;
     color: white;
-    padding: 30px 20px;
+    padding: 40px 20px; /* Aumentei o padding para dar mais espaço */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.header-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 20px;
 }
 
 /* Logo */
 .logo {
-    width: 200px;  /* Aumenta o tamanho da logo */
-    height: auto;   /* Mantém a proporção da logo */
-    margin-bottom: 20px;  /* Espaçamento abaixo da logo */
+    width: 150px;  /* Ajustei o tamanho da logo para 150px */
+    height: auto;
+    margin-bottom: 20px;  /* Espacamento entre a logo e o título */
 }
 
 /* Título principal */
 #main-title {
     font-weight: bold;
-    font-size: 40px;
+    font-size: 38px; /* Ajustei o tamanho da fonte para um ajuste mais harmonioso */
     color: #fff;
     text-align: center;
     display: flex;
@@ -47,6 +37,7 @@ header {
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); /* Efeito de sombra 3D */
     letter-spacing: 2px;  /* Aumenta o espaço entre as letras */
     text-transform: uppercase; /* Coloca o título em maiúsculas */
+    margin-bottom: 10px; /* Ajuste o espaçamento entre o título e o restante do conteúdo */
 }
 
 /* Formulário */
@@ -162,163 +153,7 @@ input[type="date"]:focus, select:focus, input[type="text"]:focus, input[type="ur
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
-* Estilo global */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
 
-/* Estilos para o header */
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.header-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;  /* Limita a largura máxima */
-    padding: 0 20px;    /* Espaçamento nas laterais */
-}
-
-/* Logo */
-.logo {
-    width: 120px;  /* Ajuste o tamanho da logo conforme necessário */
-    height: auto;   /* Mantém a proporção da logo */
-    margin-right: 15px;  /* Espaçamento entre logo e título */
-}
-
-/* Título principal */
-#main-title {
-    font-weight: bold;
-    font-size: 40px;
-    color: #fff;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); /* Efeito de sombra 3D */
-    letter-spacing: 2px;  /* Aumenta o espaço entre as letras */
-    text-transform: uppercase; /* Coloca o título em maiúsculas */
-}
-
-/* Formulário */
-form {
-    background-color: #fff;
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-form label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-form input, 
-form select {
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s, transform 0.2s;
-}
-
-form input:focus, 
-form select:focus {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-}
-
-/* Botão */
-form button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-
-form button:hover {
-    background-color: #218838;
-    transform: translateY(-3px);
-}
-
-form button:active {
-    transform: translateY(1px);
-}
-
-/* Título das seções */
-section h2 {
-    text-transform: uppercase;
-    font-size: 22px;
-    font-weight: bold;
-    color: #003366;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-/* Mapa */
-#map {
-    width: 100%;
-    height: 500px;
-    margin-top: 20px;
-}
-
-/* Estilos para o botão de exportação */
-.export-btn {
-    padding: 10px 20px;
-    background-color: #ffc107;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-top: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.export-btn:hover {
-    background-color: #e0a800;
-    transform: translateY(-3px);
-}
-
-.export-btn:active {
-    transform: translateY(1px);
-}
-
-/* Estilo para os campos de inserção de dados */
-input[type="date"], select, input[type="text"], input[type="url"] {
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s, transform 0.2s;
-}
 
 input[type="date"]:focus, select:focus, input[type="text"]:focus, input[type="url"]:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
