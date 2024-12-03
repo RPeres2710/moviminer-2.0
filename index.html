@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOVIMINER</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> <!-- Adiciona a biblioteca de geocodificação -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Seu CSS existente */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo {
+            height: 50px;
+            margin-right: 10px;
+        }
+        #main-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            font-size: 1em;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004d99;
+        }
+        .export-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .export-section label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .export-section input {
+            display: inline-block;
+            width: auto;
+            margin-right: 15px;
+        }
+        .export-section button {
+            display: inline-block;
+            width: auto;
+            background-color: #28a745;
+        }
+        /* Estilo para o campo de busca */
+        .geocoder-control input {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="MSlogo.webp" alt="Logo Moviminer" class="logo">
+            <h1 id="main-title">MOVIMINER</h1>
+        </div>
+    </header>
+    <main>
+        <!-- Formulário -->
+        <section>
+            <h2>Inserir Clipping</h2>
+            <form id="clipping-form">
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required><br>
+
+                <label for="tipicidade">Tipicidade:</label>
+                <select id="tipicidade" name="tipicidade" required>
+                    <option value="latrocinio">Latrocínio</option>
+                    <option value="homicidio">Homicídio</option>
+                    <option value="operacao_policial">Operação Policial</option>
+                    <option value="apreensao_drogas">Apreensão de Drogas</option>
+                    <option value="roubo_cargas">Roubo de Cargas</option>
+                    <option value="recuperacao_cargas">Recuperação de Cargas</option>
+                    <option value="apreensao_veiculos">Apreensão de Veículos</option>
+                    <option value="roubo_veiculos">Roubo de Veículos</option>
+                    <option value="assalto">Assalto</option>
+                    <option value="troca_tiros">Troca de Tiros</option>
+                    <option value="atropelamento">Atropelamento</option>
+                    <option value="enchente">Enchente</option>
+                    <option value="alagamento">Alagamento</option>
+                    <option value="incendio">Incêndio</option>
+                    <option value="catastrofe_natural">Catástrofe Natural</option>
+                </select><br>
+
+                <label for="endereco">Endereço ou Região:</label>
+                <!-- Campo de busca para sugerir endereços -->
+                <input type="text" id="endereco" placeholder="Digite o endereço ou região" />
+
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required>
+                    <option value="rj">Rio de Janeiro</option>
+                    <option value="sp">São Paulo</option>
+                </select><br>
+
+                <label for="link">Link:</label>
+                <input type="url" id="link" name="link" placeholder="Inserir link do incidente" required><br>
+
+                <button type="submit">Incluir</button>
+            </form>
+        </section>
+
+        <!-- Mapa -->
+        <section>
+            <h2>Mapa de Incidentes</h2>
+            <div id="map" style="height: 500px; width: 100%;"></div>
+        </section>
+
+        <!-- Seção de Exportação -->
+        <section class="export-section">
+            <h2>Exportar Dados</h2>
+            <label for="mes">Selecione o Mês:</label>
+            <input type="month" id="mes" name="mes" required><br>
+
+            <button id="exportar-btn">Exportar para CSV</button>
+        </section>
+    </main>
+
+    <script>
+        // Mapa com Leaflet
+        const map = L.map('map').setView([-22.9068, -43.1729], 12); // Coordenadas do Rio de Janeiro
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Geocodificador (Autocomplete de Endereço)
+        const geocoder = L.Control.Geocoder.nominatim();
+        const geocodeControl = new L.Control.Geocoder({
+            geocoder: geocoder,
+            position: 'topleft',
+            placeholder: 'Pesquisar endereço',
+            collapsed: false
+        }).addTo(map);
+
+        // Função para exportar dados para CSV
+        document.getElementById("exportar-btn").addEventListener("click", function() {
+            const data = document.getElementById("data").value;
+            const tipicidade = document.getElementById("tipicidade").value;
+            const endereco = document.getElementById("endereco").value;  // Endereço inserido
+            const estado = document.getElementById("estado").value;
+            const mes = document.getElementById("mes").value;
+            const link = document.getElementById("link").value;
+
+            const headers = ["Data", "Tipicidade", "Endereço", "Estado", "Mês", "Link"];
+            const rows = [
+                [data, tipicidade, endereco, estado, mes, link]
+            ];
+
+            let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n";
+            rows.forEach(function(row) {
+                csvContent += row.join(",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const linkElement = document.createElement("a");
+            linkElement.setAttribute("href", encodedUri);
+            linkElement.setAttribute("download", "dados_incidentes.csv");
+            linkElement.click();
+        });
+
+        // Função para buscar o endereço no mapa
+        document.getElementById("endereco").addEventListener("input", function() {
+            const searchQuery = this.value;
+            geocoder.geocode(searchQuery, function(results) {
+                if (results && results.length > 0) {
+                    const firstResult = results[0];
+                    const latLng = firstResult.center;
+                    map.setView(latLng, 14);  // Ajusta o zoom do mapa
+                    L.marker(latLng).addTo(map)
+                        .bindPopup(firstResult.name)
+                        .openPopup();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+         
+
+
+
+ 
+
+
