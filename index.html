@@ -6,7 +6,7 @@
     <title>MOVIMINER</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> <!-- Adiciona a biblioteca de geocodificação -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> <!-- Biblioteca de geocodificação -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         /* Seu CSS existente */
@@ -112,6 +112,47 @@
             box-sizing: border-box;
             margin-bottom: 15px;
         }
+        /* Estilo para a tabela */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        /* Estilo para a pop-up de confirmação */
+        .popup {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+        }
+        .popup button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .popup button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -171,6 +212,24 @@
             <div id="map" style="height: 500px; width: 100%;"></div>
         </section>
 
+        <!-- Tabela de Incidentes -->
+        <section id="incidents-table-section">
+            <h2>Incidentes Inseridos</h2>
+            <table id="incidents-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipicidade</th>
+                        <th>Região</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os incidentes inseridos serão exibidos aqui -->
+                </tbody>
+            </table>
+        </section>
+
         <!-- Seção de Exportação -->
         <section class="export-section">
             <h2>Exportar Dados</h2>
@@ -179,106 +238,73 @@
 
             <button id="exportar-btn">Exportar para CSV</button>
         </section>
+
+        <!-- Pop-up de Confirmação -->
+        <div class="popup" id="confirmation-popup">
+            <p>Incidente inserido com sucesso!</p>
+            <button onclick="closePopup()">Fechar</button>
+        </div>
     </main>
 
     <script>
         // Mapa com Leaflet
         const map = L.map('map').setView([-22.9068, -43.1729], 12); // Coordenadas do Rio de Janeiro
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Geocodificador (Autocomplete de Endereço)
+        // Geocodificador (busca de endereços)
         const geocoder = L.Control.Geocoder.nominatim();
-        const geocodeControl = new L.Control.Geocoder({
-            geocoder: geocoder,
-            position: 'topleft',
-            placeholder: 'Pesquisar endereço',
-            collapsed: false
-        }).addTo(map);
 
-        // Função para exportar dados para CSV
-        document.getElementById("exportar-btn").addEventListener("click", function() {
+        // Tabela de Incidentes
+        const incidentsTableBody = document.querySelector("#incidents-table tbody");
+
+        // Função para adicionar um novo incidente à tabela
+        function addIncidentToTable(data, tipicidade, regioes, estado) {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${data}</td>
+                <td>${tipicidade}</td>
+                <td>${regioes}</td>
+                <td>${estado}</td>
+            `;
+            incidentsTableBody.appendChild(newRow);
+        }
+
+        // Função para exibir a pop-up
+        function showPopup() {
+            const popup = document.getElementById('confirmation-popup');
+            popup.style.display = 'block';
+        }
+
+        // Função para fechar a pop-up
+        function closePopup() {
+            const popup = document.getElementById('confirmation-popup');
+            popup.style.display = 'none';
+        }
+
+        // Manipulador do formulário
+        document.getElementById("clipping-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
             const data = document.getElementById("data").value;
             const tipicidade = document.getElementById("tipicidade").value;
-            const endereco = document.getElementById("endereco").value;  // Endereço inserido
+            const regioes = document.getElementById("endereco").value;
             const estado = document.getElementById("estado").value;
-            const mes = document.getElementById("mes").value;
-            const link = document.getElementById("link").value;
 
-            const headers = ["Data", "Tipicidade", "Endereço", "Estado", "Mês", "Link"];
-            const rows = [
-                [data, tipicidade, endereco, estado, mes, link]
-            ];
+            // Adicionar o incidente à tabela
+            addIncidentToTable(data, tipicidade, regioes, estado);
 
-            let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n";
-            rows.forEach(function(row) {
-                csvContent += row.join(",") + "\n";
-            });
+            // Exibir a pop-up de confirmação
+            showPopup();
 
-            const encodedUri = encodeURI(csvContent);
-            const linkElement = document.createElement("a");
-            linkElement.setAttribute("href", encodedUri);
-            linkElement.setAttribute("download", "dados_incidentes.csv");
-            linkElement.click();
-        });
+            // Fechar a pop-up quando clicado
+            document.getElementById("confirmation-popup").addEventListener("click", closePopup);
 
-        // Função para buscar o endereço no mapa
-        document.getElementById("endereco").addEventListener("input", function() {
-            const searchQuery = this.value;
-            geocoder.geocode(searchQuery, function(results) {
-                if (results && results.length > 0) {
-                    const firstResult = results[0];
-                    const latLng = firstResult.center;
-                    map.setView(latLng, 14);  // Ajusta o zoom do mapa
-                    L.marker(latLng).addTo(map)
-                        .bindPopup(firstResult.name)
-                        .openPopup();
-                }
-            });
+            // Limpar o formulário após o envio
+            document.getElementById("clipping-form").reset();
         });
     </script>
 
-
-<!-- Seção de Exibição de Registros -->
-<section id="exibicao-registros">
-    <h2>Registros Inseridos</h2>
-
-    <!-- Filtros -->
-    <label for="filtro-data">Filtrar por Data:</label>
-    <input type="date" id="filtro-data" name="filtro-data">
-    
-    <label for="filtro-tipo">Filtrar por Tipicidade:</label>
-    <select id="filtro-tipo" name="filtro-tipo">
-        <option value="">Todos</option>
-        <option value="latrocinio">Latrocínio</option>
-        <option value="homicidio">Homicídio</option>
-        <option value="operacao_policial">Operação Policial</option>
-        <option value="apreensao_drogas">Apreensão de Drogas</option>
-        <option value="roubo_cargas">Roubo de Cargas</option>
-        <option value="recuperacao_cargas">Recuperação de Cargas</option>
-        <option value="apreensao_veiculos">Apreensão de Veículos</option>
-        <option value="roubo_veiculos">Roubo de Veículos</option>
-        <option value="assalto">Assalto</option>
-        <option value="troca_tiros">Troca de Tiros</option>
-        <option value="atropelamento">Atropelamento</option>
-        <option value="enchente">Enchente</option>
-        <option value="alagamento">Alagamento</option>
-        <option value="incendio">Incêndio</option>
-        <option value="catastrofe_natural">Catástrofe Natural</option>
-    </select>
-
-    <label for="filtro-mes">Filtrar por Mês:</label>
-    <input type="month" id="filtro-mes" name="filtro-mes">
-
-    <button id="filtrar-btn">Filtrar</button>
-
-    <!-- Contêiner para mostrar os registros -->
-    <div id="lista-registros">
-        <!-- Registros serão exibidos aqui -->
-    </div>
-</section>
+<script src="script.js"></script>
 
 </body>
 </html>
