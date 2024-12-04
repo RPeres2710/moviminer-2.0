@@ -113,10 +113,78 @@ function exportToCSV(data) {
 document.getElementById('export-csv').addEventListener('click', function () {
     exportToCSV(incidentData);
 
-    
-    
+    // Função para salvar e exibir registros
+document.getElementById("clipping-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Coleta os dados do formulário
+    const data = document.getElementById("data").value;
+    const tipicidade = document.getElementById("tipicidade").value;
+    const endereco = document.getElementById("endereco").value;
+    const estado = document.getElementById("estado").value;
+    const mes = document.getElementById("mes").value;
+    const link = document.getElementById("link").value;
+
+    // Cria o objeto de registro
+    const registro = { data, tipicidade, endereco, estado, mes, link };
+
+    // Armazena os dados no localStorage
+    let registros = JSON.parse(localStorage.getItem("registros")) || [];
+    registros.push(registro);
+    localStorage.setItem("registros", JSON.stringify(registros));
+
+    // Limpa o formulário após a submissão
+    document.getElementById("clipping-form").reset();
+
+    // Atualiza a exibição dos registros
+    exibirRegistros();
 });
 
+// Função para exibir os registros
+function exibirRegistros(filtroData = "", filtroTipo = "", filtroMes = "") {
+    const registros = JSON.parse(localStorage.getItem("registros")) || [];
+    const listaRegistros = document.getElementById("lista-registros");
+    listaRegistros.innerHTML = ""; // Limpa os registros exibidos
+
+    // Filtra os registros
+    const registrosFiltrados = registros.filter(registro => {
+        const dataValida = filtroData ? registro.data === filtroData : true;
+        const tipoValido = filtroTipo ? registro.tipicidade === filtroTipo : true;
+        const mesValido = filtroMes ? registro.mes === filtroMes : true;
+        return dataValida && tipoValido && mesValido;
+    });
+
+    // Exibe os registros filtrados
+    registrosFiltrados.forEach(registro => {
+        const divRegistro = document.createElement("div");
+        divRegistro.classList.add("registro-item");
+        divRegistro.innerHTML = `
+            <p><strong>Data:</strong> ${registro.data}</p>
+            <p><strong>Tipicidade:</strong> ${registro.tipicidade}</p>
+            <p><strong>Endereço:</strong> ${registro.endereco}</p>
+            <p><strong>Estado:</strong> ${registro.estado}</p>
+            <p><strong>Mês:</strong> ${registro.mes}</p>
+            <p><strong>Link:</strong> <a href="${registro.link}" target="_blank">Acessar</a></p>
+        `;
+        listaRegistros.appendChild(divRegistro);
+    });
+}
+
+// Exibe os registros ao carregar a página
+window.onload = function() {
+    exibirRegistros();
+};
+
+// Função para filtrar os registros
+document.getElementById("filtrar-btn").addEventListener("click", function() {
+    const filtroData = document.getElementById("filtro-data").value;
+    const filtroTipo = document.getElementById("filtro-tipo").value;
+    const filtroMes = document.getElementById("filtro-mes").value;
+    exibirRegistros(filtroData, filtroTipo, filtroMes);
+});
+
+    
+});
 
 
 
