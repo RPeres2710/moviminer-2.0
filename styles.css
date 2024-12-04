@@ -1,47 +1,182 @@
-/* Estilo global */
+/* Corpo e Fonte */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f4f4f9;
 }
 
-/* Estilos para o header */
+/* Cabeçalho */
 header {
-    display: flex;
-    flex-direction: column; /* Organiza os itens em coluna */
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #007bff, #0056b3); /* Degradê de azul */
+    background-color: #0066cc;
     color: white;
-    padding: 40px 20px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombramento para profundidade */
-    border-bottom: 5px solid #003366; /* Linha sutil na parte inferior para destacar */
-}
-
-/* Logo - Ajustada para ficar acima do título */
-.logo {
-    width: 150px;
-    height: auto;
-    margin-bottom: 20px; /* Espaçamento entre a logo e o título */
-}
-
-/* Título principal */
-#main-title {
-    font-weight: bold;
-    font-size: 38px;
-    color: #fff;
+    padding: 15px 0;
     text-align: center;
+}
+
+.header-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* Sombras mais suaves para profundidade */
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    justify-content: center;
+}
+
+.logo {
+    height: 50px;
+    margin-right: 10px;
+}
+
+#main-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Seções */
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #333;
     margin-bottom: 10px;
 }
 
-/* Formulário e demais estilos continuam os mesmos */
+/* Formulário */
+form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label {
+    font-size: 1em;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #0066cc;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004d99;
+}
+
+/* Seção de Exportação */
+.export-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.export-section label {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.export-section input {
+    display: inline-block;
+    width: auto;
+    margin-right: 15px;
+}
+
+.export-section button {
+    display: inline-block;
+    width: auto;
+    background-color: #28a745;
+}
+
+/* Estilo para o campo de busca */
+.geocoder-control input {
+    padding: 10px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Estilo para a tabela */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para a pop-up de confirmação */
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+}
+
+.popup button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.popup button:hover {
+    background-color: #c82333;
+}
+
+/* Mapa */
+#map {
+    height: 500px;
+    width: 100%;
+    margin-top: 20px;
+}
 
 
 
