@@ -239,12 +239,46 @@
             });
         });
     </script>
+
+
+<!-- Seção de Exibição de Registros -->
+<section id="exibicao-registros">
+    <h2>Registros Inseridos</h2>
+
+    <!-- Filtros -->
+    <label for="filtro-data">Filtrar por Data:</label>
+    <input type="date" id="filtro-data" name="filtro-data">
+    
+    <label for="filtro-tipo">Filtrar por Tipicidade:</label>
+    <select id="filtro-tipo" name="filtro-tipo">
+        <option value="">Todos</option>
+        <option value="latrocinio">Latrocínio</option>
+        <option value="homicidio">Homicídio</option>
+        <option value="operacao_policial">Operação Policial</option>
+        <option value="apreensao_drogas">Apreensão de Drogas</option>
+        <option value="roubo_cargas">Roubo de Cargas</option>
+        <option value="recuperacao_cargas">Recuperação de Cargas</option>
+        <option value="apreensao_veiculos">Apreensão de Veículos</option>
+        <option value="roubo_veiculos">Roubo de Veículos</option>
+        <option value="assalto">Assalto</option>
+        <option value="troca_tiros">Troca de Tiros</option>
+        <option value="atropelamento">Atropelamento</option>
+        <option value="enchente">Enchente</option>
+        <option value="alagamento">Alagamento</option>
+        <option value="incendio">Incêndio</option>
+        <option value="catastrofe_natural">Catástrofe Natural</option>
+    </select>
+
+    <label for="filtro-mes">Filtrar por Mês:</label>
+    <input type="month" id="filtro-mes" name="filtro-mes">
+
+    <button id="filtrar-btn">Filtrar</button>
+
+    <!-- Contêiner para mostrar os registros -->
+    <div id="lista-registros">
+        <!-- Registros serão exibidos aqui -->
+    </div>
+</section>
+
 </body>
 </html>
-         
-
-
-
- 
-
-
